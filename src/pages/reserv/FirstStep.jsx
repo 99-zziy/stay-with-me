@@ -1,16 +1,18 @@
-import Step from "../components/Step";
+import Step from "../../components/Step";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useNavigate } from "react-router";
 
-const SearchPage = () => {
+const FirstStep = () => {
   const today = new Date();
   const tomorrow = new Date(today.setDate(today.getDate() + 1));
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(tomorrow);
   const [day, setDay] = useState(1);
   const [count, setCount] = useState(1);
+  const navigate = useNavigate();
 
   const onIncrease = () => {
     if (count < 3) {
@@ -22,6 +24,10 @@ const SearchPage = () => {
     if (count > 1) {
       setCount((prevCount) => prevCount - 1);
     }
+  };
+
+  const handleSearch = () => {
+    navigate("/reserv/2");
   };
 
   useEffect(() => {
@@ -86,7 +92,7 @@ const SearchPage = () => {
           </div>
         </div>
         <div style={{ marginRight: "20px", marginTop: "50px" }}>
-          <SearchButton>검색</SearchButton>
+          <SearchButton onClick={handleSearch}>검색</SearchButton>
         </div>
       </Box>
     </SeachPageContainer>
@@ -149,4 +155,4 @@ const Box = styled.div`
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 `;
 
-export default SearchPage;
+export default FirstStep;

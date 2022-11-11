@@ -12,7 +12,7 @@ const MainPage = () => {
     <MainPageContainer>
       <img src={hotel} alt={"hotel image"} />
       <ButtonContainer>
-        <ButtonWrppaer onClick={() => navigate("/search")}>
+        <ButtonWrppaer onClick={() => navigate("/reserv/1")}>
           <HotelIcon />
           <p>객실 예약</p>
         </ButtonWrppaer>
