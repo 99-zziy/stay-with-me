@@ -14,6 +14,8 @@ const FirstStep = () => {
   const [day, setDay] = useState(1);
   const [count, setCount] = useState(1);
   const navigate = useNavigate();
+  const [roomId, setRoomId] = useState(0);
+  const [bookPrice, setBookPrice] = useState(0);
 
   const onIncrease = () => {
     if (count < 3) {
@@ -47,7 +49,14 @@ const FirstStep = () => {
     const start = getDateFormat(startDate);
     const end = getDateFormat(endDate);
     searchRooms({ start, end, capacity: count });
-    navigate("/reserv/2");
+    navigate("/reserv/2", {
+      state: {
+        roomId,
+        bookPrice,
+        checkIdDate: start,
+        checkOutDate: end,
+      },
+    });
   };
 
   useEffect(() => {

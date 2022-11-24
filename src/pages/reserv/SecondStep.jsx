@@ -1,31 +1,36 @@
 import styled from "styled-components";
 import Step from "../../components/Step";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { reserveRoom } from "../../api/bookApi";
 import { useState } from "react";
 
 const SecondStep = () => {
   const navigate = useNavigate();
+  const { state } = useLocation();
+  console.log(state);
   // bookPrice,checkIdDate,checkOutDate,roomId 는 firstStep에서 받아옴
-  const bookPrice = "";
-  const checkIdDate = "";
-  const checkOutDate = "";
-  const roomId = "";
+  const bookPrice = state.bookPrice;
+  const checkIdDate = state.checkIdDate;
+  const checkOutDate = state.checkOutDate;
+  const roomId = state.roomId;
   // 입력받기
   const [bookOption, setBookOption] = useState("");
   const [userName, setUserName] = useState("");
   const [userPhone, setUserPhone] = useState("");
-  const [cardNum, setCardNum] = useState("");
+  const [firstCardNum, setFirstCardNum] = useState("");
+  const [secondCardNum, setSecondCardNum] = useState("");
+  const [thirdCardNum, setThirdCardNum] = useState("");
+  const [fourthCardNum, setFourthCardNum] = useState("");
   const [cardCompany, setCardCompany] = useState("");
-  const [card, setCard] = useState({
-    cvc: "",
-    expiry: "",
-    focus: "",
-    name: "",
-    number: "",
-  });
 
   const handleComplete = () => {
+    const cardNum = [
+      firstCardNum,
+      secondCardNum,
+      thirdCardNum,
+      fourthCardNum,
+    ].join("-");
+
     reserveRoom({
       bookPrice,
       checkIdDate,
@@ -40,14 +45,10 @@ const SecondStep = () => {
     navigate("/reserv/3");
   };
 
-  const handleInputFocus = (e) => {
-    this.setState({ focus: e.target.name });
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-
-    this.setState({ [name]: value });
+  const inputMoveNumber = (e) => {
+    if (e.target.value.length === 4) {
+      e.target.nextElementSibling.focus();
+    }
   };
 
   return (
@@ -71,7 +72,7 @@ const SecondStep = () => {
               <p>고객정보</p>
               <div style={{ display: "flex" }}>
                 <p>성명</p>
-                <input
+                <BasicInput
                   onChange={(e) => {
                     setUserName(e.target.value);
                   }}
@@ -79,7 +80,7 @@ const SecondStep = () => {
               </div>
               <div style={{ display: "flex" }}>
                 <p>연락처</p>
-                <input
+                <BasicInput
                   onChange={(e) => {
                     setUserPhone(e.target.value);
                   }}
@@ -88,7 +89,52 @@ const SecondStep = () => {
             </InfoInput>
           </div>
           <div style={{ width: "50%" }}>
-            <InfoInput></InfoInput>
+            <InfoInput>
+              <div style={{ display: "flex" }}>
+                <p>카드 종류</p>
+                <select
+                  className="sessionSelect"
+                  name="section"
+                  onChange={(e) => setCardCompany(e.target.value)}
+                >
+                  <option value="">카드를 선택하세요</option>
+                  <option value="신한카드">신한카드</option>
+                  <option value="국민카드">국민카드</option>
+                  <option value="국민카드">삼성카드</option>
+                  <option value="현대카드">롯데카드</option>
+                  <option value="현대카드">BC카드</option>
+                  <option value="현대카드">하나카드</option>
+                  <option value="현대카드">우리카드</option>
+                  <option value="현대카드">현대카드</option>
+                </select>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p>카드 번호</p>
+                <CardInput
+                  type="text"
+                  onChange={(e) => setFirstCardNum(e.target.value)}
+                  onKeyUp={(e) => inputMoveNumber(e)}
+                  maxLength="4"
+                />
+                <CardInput
+                  type="password"
+                  onChange={(e) => setSecondCardNum(e.target.value)}
+                  onKeyUp={(e) => inputMoveNumber(e)}
+                  maxLength="4"
+                />
+                <CardInput
+                  type="password"
+                  onChange={(e) => setThirdCardNum(e.target.value)}
+                  onKeyUp={(e) => inputMoveNumber(e)}
+                  maxLength="4"
+                />
+                <CardInput
+                  type="password"
+                  maxLength="4"
+                  onChange={(e) => setFourthCardNum(e.target.value)}
+                />
+              </div>
+            </InfoInput>
           </div>
         </InputDiv2>
       </InputDiv>
@@ -141,10 +187,20 @@ const InfoInput = styled.div`
     font-size: 0.85rem;
     font-weight: 700;
   }
-  input {
-    width: 300px;
-    height: 30px;
+  select {
+    height: 40px;
   }
+`;
+
+const BasicInput = styled.input`
+  width: 300px;
+  height: 30px;
+`;
+
+const CardInput = styled.input`
+  width: 70px;
+  margin-right: 10px;
+  height: 30px;
 `;
 
 const InputDiv = styled.div`
