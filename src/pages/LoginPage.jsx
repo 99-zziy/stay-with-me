@@ -1,6 +1,33 @@
 import styled from "styled-components";
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import { login } from "../api/bookApi";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const [bookId, setBookId] = useState();
+  const [firstCardNum, setFirstCardNum] = useState("");
+  const [secondCardNum, setSecondCardNum] = useState("");
+  const [thirdCardNum, setThirdCardNum] = useState("");
+  const [fourthCardNum, setFourthCardNum] = useState("");
+
+  const inputMoveNumber = (e) => {
+    if (e.target.value.length === 4) {
+      e.target.nextElementSibling.focus();
+    }
+  };
+
+  const handleLogin = () => {
+    const cardNum = [
+      firstCardNum,
+      secondCardNum,
+      thirdCardNum,
+      fourthCardNum,
+    ].join("-");
+    login({ bookId, cardNum });
+    navigate("/");
+  };
+
   return (
     <InputContainer>
       <h2>D hotel에 오신 것을 환영합니다.</h2>
@@ -15,7 +42,11 @@ const LoginPage = () => {
               marginBottom: "10px",
             }}
           >
-            <input className="reserv" placeholder="예약번호"></input>
+            <input
+              className="reserv"
+              placeholder="예약번호"
+              onChange={(e) => setBookId(e.target.value)}
+            />
           </div>
           <div
             style={{
@@ -23,16 +54,37 @@ const LoginPage = () => {
               justifyContent: "center",
               alignItems: "center",
               marginBottom: "10px",
+              marginLeft: "8px",
             }}
           >
-            <input className="card" placeholder="신용카드 번호"></input>
-            <input className="card"></input>
-            <input className="card"></input>
-            <input className="card"></input>
+            <CardInput
+              type="text"
+              placeholder={"신용카드 번호"}
+              onChange={(e) => setFirstCardNum(e.target.value)}
+              onKeyUp={(e) => inputMoveNumber(e)}
+              maxLength="4"
+            />
+            <CardInput
+              type="password"
+              onChange={(e) => setSecondCardNum(e.target.value)}
+              onKeyUp={(e) => inputMoveNumber(e)}
+              maxLength="4"
+            />
+            <CardInput
+              type="password"
+              onChange={(e) => setThirdCardNum(e.target.value)}
+              onKeyUp={(e) => inputMoveNumber(e)}
+              maxLength="4"
+            />
+            <CardInput
+              type="password"
+              maxLength="4"
+              onChange={(e) => setFourthCardNum(e.target.value)}
+            />
           </div>
         </div>
         <div>
-          <button>로그인</button>
+          <button onClick={handleLogin}>로그인</button>
         </div>
       </InputForm>
     </InputContainer>
@@ -55,6 +107,12 @@ const InputContainer = styled.div`
   }
 `;
 
+const CardInput = styled.input`
+  width: 70px;
+  margin-right: 10px;
+  height: 30px;
+`;
+
 const InputForm = styled.form`
   display: flex;
   align-items: center;
@@ -67,8 +125,8 @@ const InputForm = styled.form`
     width: 150px;
   }
   .reserv {
-    height: 20px;
-    width: 360px;
+    height: 30px;
+    width: 335px;
   }
   .card {
     height: 20px;

@@ -7,13 +7,10 @@ import { useState } from "react";
 const SecondStep = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  console.log(state);
-  // bookPrice,checkIdDate,checkOutDate,roomId 는 firstStep에서 받아옴
-  const bookPrice = state.bookPrice;
+  const bookPrice = state.roomPrice;
   const checkIdDate = state.checkIdDate;
   const checkOutDate = state.checkOutDate;
   const roomId = state.roomId;
-  // 입력받기
   const [bookOption, setBookOption] = useState("");
   const [userName, setUserName] = useState("");
   const [userPhone, setUserPhone] = useState("");
@@ -42,6 +39,17 @@ const SecondStep = () => {
       cardNum,
       cardCompany,
     });
+    console.log(
+      bookPrice,
+      checkIdDate,
+      checkOutDate,
+      roomId,
+      bookOption,
+      userName,
+      userPhone,
+      cardNum,
+      cardCompany
+    );
     navigate("/reserv/3");
   };
 

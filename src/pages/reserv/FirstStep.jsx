@@ -5,6 +5,24 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router";
 import { searchRooms } from "../../api/bookApi";
+import roomImg from "../../assets/room1.jpg";
+
+const dummyRooms = [
+  {
+    roomId: 1,
+    roomName: "비즈니스 디럭스 킹",
+    roomPrice: 896500,
+    roomCapacity: 3,
+    roomDetail: "더블베드 1개 객실+욕실 / 13평",
+  },
+  {
+    roomId: 2,
+    roomName: "비즈니스 디럭스 킹 / 조식",
+    roomPrice: 996500,
+    roomCapacity: 3,
+    roomDetail: "비지니스 디럭스 킹 + 더 파크뷰 조식 2인제공",
+  },
+];
 
 const FirstStep = () => {
   const today = new Date();
@@ -14,8 +32,7 @@ const FirstStep = () => {
   const [day, setDay] = useState(1);
   const [count, setCount] = useState(1);
   const navigate = useNavigate();
-  const [roomId, setRoomId] = useState(0);
-  const [bookPrice, setBookPrice] = useState(0);
+  const [rooms, setRooms] = useState([]);
 
   const onIncrease = () => {
     if (count < 3) {
@@ -45,18 +62,24 @@ const FirstStep = () => {
     );
   };
 
-  const handleSearch = () => {
+  const handleReserve = ({ roomId, roomPrice }) => {
     const start = getDateFormat(startDate);
     const end = getDateFormat(endDate);
-    searchRooms({ start, end, capacity: count });
     navigate("/reserv/2", {
       state: {
         roomId,
-        bookPrice,
+        roomPrice,
         checkIdDate: start,
         checkOutDate: end,
       },
     });
+  };
+
+  const handleSearch = () => {
+    const start = getDateFormat(startDate);
+    const end = getDateFormat(endDate);
+    searchRooms({ start, end, capacity: count });
+    setRooms(dummyRooms);
   };
 
   useEffect(() => {
@@ -124,6 +147,50 @@ const FirstStep = () => {
           <SearchButton onClick={handleSearch}>검색</SearchButton>
         </div>
       </Box>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        {rooms &&
+          rooms.map((room) => (
+            <div
+              key={room.roomId}
+              style={{
+                display: "flex",
+                width: "960px",
+                justifyContent: "space-between",
+                marginBottom: "-20px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                }}
+              >
+                <Left>
+                  <img src={roomImg} />
+                </Left>
+                <Mid>
+                  <h4>{room.roomName}</h4>
+                  <h6>
+                    {
+                      "최대 42m²의 여유롭고 세련된 고층 객실로 킹 사이즈 침대 1개와 2인용 다이닝 테이블을 갖추고 있습니다.  15층 – 22층에 위치하며, 전면 통유리창을 통해 역동적인 서울 강남의 도심 전망을 즐길 수 있습니다. "
+                    }
+                  </h6>
+                </Mid>
+              </div>
+              <Right>
+                <p>{room.roomPrice}원</p>
+                <ReserveButton onClick={() => handleReserve(room)}>
+                  예약하기
+                </ReserveButton>
+              </Right>
+            </div>
+          ))}
+      </div>
     </SeachPageContainer>
   );
 };
@@ -190,6 +257,54 @@ const Box = styled.div`
   padding: 30px 80px;
   background: #f5f5f5;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  margin-bottom: 100px;
+`;
+
+const Left = styled.div`
+  img {
+    width: 250px;
+  }
+  height: 180px;
+`;
+
+const Right = styled.div`
+  display: flex;
+  justify-content: end;
+  height: 240px;
+  align-items: center;
+  p {
+    font-size: 20px;
+    font-weight: 600;
+    color: rgb(51, 51, 51);
+  }
+`;
+
+const Mid = styled.div`
+  width: 300px;
+  margin: 0px 30px;
+  height: 180px;
+  h4 {
+    font-size: 22px;
+  }
+  h6 {
+    font-size: 14px;
+    color: rgb(94, 94, 94);
+  }
+`;
+
+const ReserveButton = styled.button`
+  height: 40px;
+  width: 100px;
+  margin-left: 30px;
+  border: none;
+  background: rgb(200, 153, 117);
+  font-size: 1.2rem;
+  border-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: white;
 `;
 
 export default FirstStep;

@@ -14,3 +14,10 @@ export const reserveRoom = async (body) => {
   );
   return data;
 };
+
+export const login = async ({ bookId, cardNum }) => {
+  const { data } = await api.get(
+    `${process.env.REACT_APP_SERVER_URL}/check?bookId=${bookId}&cardNum=${cardNum}`
+  );
+  return data;
+};
