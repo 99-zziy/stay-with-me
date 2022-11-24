@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router";
+import { searchRooms } from "../../api/bookApi";
 
 const FirstStep = () => {
   const today = new Date();
@@ -26,7 +27,26 @@ const FirstStep = () => {
     }
   };
 
+  const getDateFormat = (d) => {
+    //yyyy-mm-dd 포맷 날짜 생성
+    return (
+      d.getFullYear() +
+      "-" +
+      (d.getMonth() + 1 > 9
+        ? (d.getMonth() + 1).toString()
+        : "0" + (d.getMonth() + 1)) +
+      "-" +
+      (d.getDate() > 9
+        ? d.getDate().toString()
+        : "0" + d.getDate().toString()) +
+      " 12:00:00"
+    );
+  };
+
   const handleSearch = () => {
+    const start = getDateFormat(startDate);
+    const end = getDateFormat(endDate);
+    searchRooms({ start, end, capacity: count });
     navigate("/reserv/2");
   };
 
@@ -48,7 +68,7 @@ const FirstStep = () => {
           >
             <SDatePicker
               selected={startDate}
-              dateFormat="yyyy.mm.dd (E)"
+              dateFormat="yyyy.MM.dd (E)"
               onChange={(date) => setStartDate(date)}
               startDate={startDate}
               endDate={endDate}
@@ -67,7 +87,7 @@ const FirstStep = () => {
           >
             <SDatePicker
               selected={endDate}
-              dateFormat="yyyy.mm.dd (E)"
+              dateFormat="yyyy.MM.dd (E)"
               onChange={(date) => setEndDate(date)}
               startDate={startDate}
               endDate={endDate}
@@ -108,6 +128,14 @@ const SeachPageContainer = styled.div`
   p {
     font-size: 0.9rem;
     font-weight: 600;
+  }
+  input {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  input:focus {
+    outline: none !important;
   }
 `;
 

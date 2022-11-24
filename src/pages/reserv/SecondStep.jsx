@@ -1,11 +1,53 @@
 import styled from "styled-components";
 import Step from "../../components/Step";
 import { useNavigate } from "react-router";
+import { reserveRoom } from "../../api/bookApi";
+import { useState } from "react";
 
 const SecondStep = () => {
   const navigate = useNavigate();
+  // bookPrice,checkIdDate,checkOutDate,roomId 는 firstStep에서 받아옴
+  const bookPrice = "";
+  const checkIdDate = "";
+  const checkOutDate = "";
+  const roomId = "";
+  // 입력받기
+  const [bookOption, setBookOption] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userPhone, setUserPhone] = useState("");
+  const [cardNum, setCardNum] = useState("");
+  const [cardCompany, setCardCompany] = useState("");
+  const [card, setCard] = useState({
+    cvc: "",
+    expiry: "",
+    focus: "",
+    name: "",
+    number: "",
+  });
+
   const handleComplete = () => {
+    reserveRoom({
+      bookPrice,
+      checkIdDate,
+      checkOutDate,
+      roomId,
+      bookOption,
+      userName,
+      userPhone,
+      cardNum,
+      cardCompany,
+    });
     navigate("/reserv/3");
+  };
+
+  const handleInputFocus = (e) => {
+    this.setState({ focus: e.target.name });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    this.setState({ [name]: value });
   };
 
   return (
@@ -14,7 +56,12 @@ const SecondStep = () => {
       <h3>옵션 사항, 고객 정보 입력</h3>
       <InputDiv>
         <Label>추가 요청사항</Label>
-        <textarea placeholder="추가 요청 사항을 입력해주세요." />
+        <textarea
+          placeholder="추가 요청 사항을 입력해주세요."
+          onChange={(e) => {
+            setBookOption(e.target.value);
+          }}
+        />
       </InputDiv>
       <InputDiv>
         <Label>정보입력</Label>
@@ -24,30 +71,24 @@ const SecondStep = () => {
               <p>고객정보</p>
               <div style={{ display: "flex" }}>
                 <p>성명</p>
-                <input></input>
+                <input
+                  onChange={(e) => {
+                    setUserName(e.target.value);
+                  }}
+                />
               </div>
               <div style={{ display: "flex" }}>
                 <p>연락처</p>
-                <input></input>
+                <input
+                  onChange={(e) => {
+                    setUserPhone(e.target.value);
+                  }}
+                />
               </div>
             </InfoInput>
           </div>
           <div style={{ width: "50%" }}>
-            <InfoInput>
-              <p>신용카드 정보</p>
-              <div style={{ display: "flex" }}>
-                <p>카드 종류</p>
-                <input></input>
-              </div>
-              <div style={{ display: "flex" }}>
-                <p>카드 번호</p>
-                <input></input>
-              </div>
-              <div style={{ display: "flex" }}>
-                <p>유효 기간</p>
-                <input></input>
-              </div>
-            </InfoInput>
+            <InfoInput></InfoInput>
           </div>
         </InputDiv2>
       </InputDiv>
