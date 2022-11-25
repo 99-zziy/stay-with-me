@@ -39,17 +39,6 @@ const SecondStep = () => {
       cardNum,
       cardCompany,
     });
-    console.log(
-      bookPrice,
-      checkIdDate,
-      checkOutDate,
-      roomId,
-      bookOption,
-      userName,
-      userPhone,
-      cardNum,
-      cardCompany
-    );
     navigate("/reserv/3");
   };
 
