@@ -65,7 +65,7 @@ const ThirdStep = () => {
         </tr>
         <tr>
           <th>이용 요금</th>
-          <td>{book.bookPrice}</td>
+          <td>{book.bookPrice}원</td>
         </tr>
       </table>
       <div style={{ display: "flex", width: "800px", justifyContent: "end" }}>
