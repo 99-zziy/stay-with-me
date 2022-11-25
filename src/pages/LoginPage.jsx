@@ -25,7 +25,7 @@ const LoginPage = () => {
       fourthCardNum,
     ].join("-");
     login({ bookId, cardNum });
-    navigate("/");
+    navigate("/check");
   };
 
   return (
