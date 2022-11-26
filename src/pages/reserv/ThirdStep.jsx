@@ -1,23 +1,23 @@
 import styled from "styled-components";
 import Step from "../../components/Step";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 
 const ThirdStep = () => {
   const navigate = useNavigate();
-  const book = {
-    bookId: 1222323434,
-    checkInDate: "2022-11-23T12:00:00",
-    checkOutDate: "2022-11-24T12:00:00",
-    userName: "NACHANJIN",
-    userPhone: "010-8539-9393",
-    bookPrice: "200000",
-    capacity: "2",
-    roomName: "비즈니스 디럭스 킹",
-  };
+  const { state } = useLocation();
 
   const handleComplete = () => {
     navigate("/");
   };
+
+  const bookId = state.bookId;
+  const checkInDate = state.checkInDate;
+  const checkOutDate = state.checkOutDate;
+  const userName = state.userName;
+  const userPhone = state.userPhone;
+  const bookPrice = state.bookPrice;
+  const capacity = state.capacity;
+  const roomName = state.roomName;
 
   return (
     <InputContainer>
@@ -33,39 +33,35 @@ const ThirdStep = () => {
       <table border={1}>
         <tr>
           <th>예약번호</th>
-          <td>{book.bookId}</td>
+          <td>2018112024</td>
         </tr>
         <tr>
           <th>예약자 성함</th>
-          <td>{book.userName}</td>
+          <td>{userName}</td>
         </tr>
         <tr>
           <th>예약자 연락처</th>
-          <td>{book.userPhone}</td>
+          <td>{userPhone}</td>
         </tr>
         <tr>
           <th>체크인 날짜</th>
-          <td>
-            {book.checkInDate.replace("T12:00:00", "").replaceAll("-", ".")}
-          </td>
+          <td>{checkInDate.replace("T12:00:00", "").replaceAll("-", ".")}</td>
         </tr>
         <tr>
           <th>체크아웃 날짜</th>
-          <td>
-            {book.checkOutDate.replace("T12:00:00", "").replaceAll("-", ".")}
-          </td>
+          <td>{checkOutDate.replace("T12:00:00", "").replaceAll("-", ".")}</td>
         </tr>
         <tr>
           <th>이용 인원</th>
-          <td>{book.capacity}인</td>
+          <td>{capacity}인</td>
         </tr>
         <tr>
           <th>객실 타입</th>
-          <td>{book.roomName}</td>
+          <td>{roomName}</td>
         </tr>
         <tr>
           <th>이용 요금</th>
-          <td>{book.bookPrice}원</td>
+          <td>{bookPrice}원</td>
         </tr>
       </table>
       <div style={{ display: "flex", width: "800px", justifyContent: "end" }}>

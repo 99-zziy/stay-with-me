@@ -9,9 +9,11 @@ const SecondStep = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const bookPrice = state.roomPrice;
-  const checkIdDate = state.checkIdDate;
+  const checkInDate = state.checkInDate;
   const checkOutDate = state.checkOutDate;
   const roomId = state.roomId;
+  const capacity = state.capacity;
+  const roomName = state.roomName;
   const [bookOption, setBookOption] = useState("");
   const [userName, setUserName] = useState("");
   const [userPhone, setUserPhone] = useState("");
@@ -21,7 +23,7 @@ const SecondStep = () => {
   const [fourthCardNum, setFourthCardNum] = useState("");
   const [cardCompany, setCardCompany] = useState("");
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
     const cardNum = [
       firstCardNum,
       secondCardNum,
@@ -29,9 +31,9 @@ const SecondStep = () => {
       fourthCardNum,
     ].join("-");
 
-    reserveRoom({
+    const data = await reserveRoom({
       bookPrice,
-      checkIdDate,
+      checkInDate,
       checkOutDate,
       roomId,
       bookOption,
@@ -40,7 +42,19 @@ const SecondStep = () => {
       cardNum,
       cardCompany,
     });
-    navigate("/reserv/3");
+
+    navigate("/reserv/3", {
+      state: {
+        bookId: data.bookId,
+        checkInDate: data.checkInDate,
+        checkOutDate: data.checkOutDate,
+        userName: data.userName,
+        userPhone: data.userPhone,
+        bookPrice: data.bookPrice,
+        capacity: capacity,
+        roomName: roomName,
+      },
+    });
   };
 
   const handleBack = () => {

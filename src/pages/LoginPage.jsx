@@ -17,15 +17,26 @@ const LoginPage = () => {
     }
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const cardNum = [
       firstCardNum,
       secondCardNum,
       thirdCardNum,
       fourthCardNum,
     ].join("-");
-    login({ bookId, cardNum });
-    navigate("/check");
+    const data = await login({ bookId, cardNum });
+    navigate("/check", {
+      state: {
+        bookId: data.bookId,
+        checkInDate: data.checkInDate,
+        checkOutDate: data.checkOutDate,
+        userName: data.userName,
+        userPhone: data.userPhone,
+        bookPrice: data.bookPrice,
+        capacity: data.capacity,
+        roomName: data.roomName,
+      },
+    });
   };
 
   return (
@@ -113,7 +124,7 @@ const CardInput = styled.input`
   height: 30px;
 `;
 
-const InputForm = styled.form`
+const InputForm = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;

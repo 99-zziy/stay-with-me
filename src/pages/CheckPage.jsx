@@ -1,18 +1,17 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 
 const CheckPage = () => {
   const navigate = useNavigate();
-  const book = {
-    bookId: 1222323434,
-    checkInDate: "2022-11-23T12:00:00",
-    checkOutDate: "2022-11-24T12:00:00",
-    userName: "NACHANJIN",
-    userPhone: "010-8539-9393",
-    bookPrice: "200000",
-    capacity: "2",
-    roomName: "비즈니스 디럭스 킹",
-  };
+  const { state } = useLocation();
+  const bookId = state.bookId;
+  const checkInDate = state.checkInDate;
+  const checkOutDate = state.checkOutDate;
+  const userName = state.userName;
+  const userPhone = state.userPhone;
+  const bookPrice = state.bookPrice;
+  const capacity = state.capacity;
+  const roomName = state.roomName;
 
   const handleEdit = () => {
     //
@@ -24,7 +23,7 @@ const CheckPage = () => {
 
   return (
     <InputContainer>
-      <h3>{book.userName}님의 예약현황입니다.</h3>
+      <h3>{userName}님의 예약현황입니다.</h3>
       <h6>
         변경, 취소 위약금은 해당 요청이 처리된 날짜를 기준으로 진행됩니다.
       </h6>
@@ -32,39 +31,35 @@ const CheckPage = () => {
       <table border={1}>
         <tr>
           <th>예약번호</th>
-          <td>{book.bookId}</td>
+          <td>{bookId}</td>
         </tr>
         <tr>
           <th>예약자 성함</th>
-          <td>{book.userName}</td>
+          <td>{userName}</td>
         </tr>
         <tr>
           <th>예약자 연락처</th>
-          <td>{book.userPhone}</td>
+          <td>{userPhone}</td>
         </tr>
         <tr>
           <th>체크인 날짜</th>
-          <td>
-            {book.checkInDate.replace("T12:00:00", "").replaceAll("-", ".")}
-          </td>
+          <td>{checkInDate.replace("T12:00:00", "").replaceAll("-", ".")}</td>
         </tr>
         <tr>
           <th>체크아웃 날짜</th>
-          <td>
-            {book.checkOutDate.replace("T12:00:00", "").replaceAll("-", ".")}
-          </td>
+          <td>{checkOutDate.replace("T12:00:00", "").replaceAll("-", ".")}</td>
         </tr>
         <tr>
           <th>이용 인원</th>
-          <td>{book.capacity}인</td>
+          <td>2인</td>
         </tr>
         <tr>
           <th>객실 타입</th>
-          <td>{book.roomName}</td>
+          <td>디럭스 킹</td>
         </tr>
         <tr>
           <th>이용 요금</th>
-          <td>{book.bookPrice}원</td>
+          <td>{bookPrice}원</td>
         </tr>
       </table>
       <div style={{ width: "700px", marginTop: "40px" }}>
@@ -74,7 +69,6 @@ const CheckPage = () => {
         </p>
         <p>* 예약 취소시 취소 규정에 따라 금액이 환불됩니다.</p>
       </div>
-
       <div style={{ display: "flex", width: "720px", justifyContent: "end" }}>
         <EditButton onClick={handleEdit}>예약 변경</EditButton>
         <CancelButton onClick={handleCancel}>예약 취소</CancelButton>

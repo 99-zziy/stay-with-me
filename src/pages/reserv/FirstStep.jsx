@@ -5,24 +5,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router";
 import { searchRooms } from "../../api/bookApi";
-import roomImg from "../../assets/room1.jpg";
-
-const dummyRooms = [
-  {
-    roomId: 1,
-    roomName: "비즈니스 디럭스 킹",
-    roomPrice: 896500,
-    roomCapacity: 3,
-    roomDetail: "더블베드 1개 객실+욕실 / 13평",
-  },
-  {
-    roomId: 2,
-    roomName: "비즈니스 디럭스 킹 / 조식",
-    roomPrice: 996500,
-    roomCapacity: 3,
-    roomDetail: "비지니스 디럭스 킹 + 더 파크뷰 조식 2인제공",
-  },
-];
+import roomImg1 from "../../assets/room1.jpg";
+import roomImg2 from "../../assets/room2.jpg";
+import roomImg3 from "../../assets/room3.jpeg";
+import roomImg4 from "../../assets/room4.jpeg";
 
 const FirstStep = () => {
   const today = new Date();
@@ -62,24 +48,26 @@ const FirstStep = () => {
     );
   };
 
-  const handleReserve = ({ roomId, roomPrice }) => {
+  const handleReserve = ({ roomId, roomPrice, roomName }) => {
     const start = getDateFormat(startDate);
     const end = getDateFormat(endDate);
     navigate("/reserv/2", {
       state: {
         roomId,
         roomPrice,
-        checkIdDate: start,
+        roomName,
+        checkInDate: start,
         checkOutDate: end,
+        capacity: count,
       },
     });
   };
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     const start = getDateFormat(startDate);
     const end = getDateFormat(endDate);
-    searchRooms({ start, end, capacity: count });
-    setRooms(dummyRooms);
+    const data = await searchRooms({ start, end, capacity: count });
+    setRooms(data);
   };
 
   useEffect(() => {
@@ -101,7 +89,10 @@ const FirstStep = () => {
             <SDatePicker
               selected={startDate}
               dateFormat="yyyy.MM.dd (E)"
-              onChange={(date) => setStartDate(date)}
+              onChange={(date) => {
+                console.log(date);
+                setStartDate(date);
+              }}
               startDate={startDate}
               endDate={endDate}
             />
@@ -155,7 +146,7 @@ const FirstStep = () => {
         }}
       >
         {rooms &&
-          rooms.map((room) => (
+          rooms.map((room, index) => (
             <div
               key={room.roomId}
               style={{
@@ -170,16 +161,30 @@ const FirstStep = () => {
                   display: "flex",
                 }}
               >
-                <Left>
-                  <img src={roomImg} />
-                </Left>
+                {index === 0 && (
+                  <Left>
+                    <img src={roomImg1} />
+                  </Left>
+                )}
+                {index === 1 && (
+                  <Left>
+                    <img src={roomImg2} />
+                  </Left>
+                )}
+                {index === 2 && (
+                  <Left>
+                    <img src={roomImg3} />
+                  </Left>
+                )}
+                {index >= 3 && (
+                  <Left>
+                    <img src={roomImg4} />
+                  </Left>
+                )}
+
                 <Mid>
                   <h4>{room.roomName}</h4>
-                  <h6>
-                    {
-                      "최대 42m²의 여유롭고 세련된 고층 객실로 킹 사이즈 침대 1개와 2인용 다이닝 테이블을 갖추고 있습니다.  15층 – 22층에 위치하며, 전면 통유리창을 통해 역동적인 서울 강남의 도심 전망을 즐길 수 있습니다. "
-                    }
-                  </h6>
+                  <h6>{room.roomDetail}</h6>
                 </Mid>
               </div>
               <Right>
@@ -289,6 +294,7 @@ const Mid = styled.div`
   h6 {
     font-size: 14px;
     color: rgb(94, 94, 94);
+    font-weight: 500;
   }
 `;
 
