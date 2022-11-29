@@ -1,5 +1,13 @@
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router";
+import { forwardRef, useState } from "react";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Slide from "@mui/material/Slide";
 
 const CheckPage = () => {
   const navigate = useNavigate();
@@ -13,12 +21,38 @@ const CheckPage = () => {
   const capacity = state.capacity;
   const roomName = state.roomName;
 
+  const [open, setOpen] = useState(false);
+
+  const Transition = forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const handleEdit = () => {
-    //
+    // setOpen(true);
   };
 
   const handleCancel = () => {
-    //
+    setOpen(true);
+  };
+
+  const handleRefund = () => {
+    setOpen(false);
+    navigate("/complete", {
+      state: {
+        bookId,
+        checkInDate,
+        checkOutDate,
+        userName,
+        userPhone,
+        bookPrice,
+        capacity,
+        roomName,
+      },
+    });
   };
 
   return (
@@ -31,7 +65,7 @@ const CheckPage = () => {
       <table border={1}>
         <tr>
           <th>예약번호</th>
-          <td>{bookId}</td>
+          <td>2018112024</td>
         </tr>
         <tr>
           <th>예약자 성함</th>
@@ -55,7 +89,7 @@ const CheckPage = () => {
         </tr>
         <tr>
           <th>객실 타입</th>
-          <td>디럭스 킹</td>
+          <td>그랜드 디럭스 더블</td>
         </tr>
         <tr>
           <th>이용 요금</th>
@@ -73,6 +107,29 @@ const CheckPage = () => {
         <EditButton onClick={handleEdit}>예약 변경</EditButton>
         <CancelButton onClick={handleCancel}>예약 취소</CancelButton>
       </div>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"정말 예약을 취소하시겠습니까?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            예약을 취소하시면 &nbsp;
+            <u>
+              <b>취소 규정</b>
+            </u>
+            에 따라 {bookPrice * 0.9}원 금액이 환불됩니다. <br />
+            이에 동의하십니까?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleRefund}>네</Button>
+          <Button onClick={handleClose}>아니오</Button>
+        </DialogActions>
+      </Dialog>
     </InputContainer>
   );
 };

@@ -2,10 +2,12 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { login } from "../api/bookApi";
+import { capitalize } from "@mui/material";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [bookId, setBookId] = useState();
+  const [error, setError] = useState(false);
   const [firstCardNum, setFirstCardNum] = useState("");
   const [secondCardNum, setSecondCardNum] = useState("");
   const [thirdCardNum, setThirdCardNum] = useState("");
@@ -24,19 +26,30 @@ const LoginPage = () => {
       thirdCardNum,
       fourthCardNum,
     ].join("-");
-    const data = await login({ bookId, cardNum });
-    navigate("/check", {
-      state: {
-        bookId: data.bookId,
-        checkInDate: data.checkInDate,
-        checkOutDate: data.checkOutDate,
-        userName: data.userName,
-        userPhone: data.userPhone,
-        bookPrice: data.bookPrice,
-        capacity: data.capacity,
-        roomName: data.roomName,
-      },
-    });
+
+    setFirstCardNum("");
+    setSecondCardNum("");
+    setThirdCardNum("");
+    setFourthCardNum("");
+    setBookId("");
+    try {
+      const data = await login({ bookId, cardNum });
+      setError(false);
+      navigate("/check", {
+        state: {
+          bookId: data.bookId,
+          checkInDate: data.checkInDate,
+          checkOutDate: data.checkOutDate,
+          userName: data.userName,
+          userPhone: data.userPhone,
+          bookPrice: data.bookPrice,
+          capacity: data.capacity,
+          roomName: data.roomName,
+        },
+      });
+    } catch (e) {
+      alert("조회된 예약정보가 없습니다.");
+    }
   };
 
   return (
@@ -45,53 +58,60 @@ const LoginPage = () => {
       <h4>예약번호와 예약하실 때 결제한 신용카드의 번호를 입력해주세요.</h4>
       <InputForm>
         <div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginBottom: "10px",
-            }}
-          >
-            <input
-              className="reserv"
-              placeholder="예약번호"
-              onChange={(e) => setBookId(e.target.value)}
-            />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginBottom: "10px",
-              marginLeft: "8px",
-            }}
-          >
-            <CardInput
-              type="text"
-              placeholder={"신용카드 번호"}
-              onChange={(e) => setFirstCardNum(e.target.value)}
-              onKeyUp={(e) => inputMoveNumber(e)}
-              maxLength="4"
-            />
-            <CardInput
-              type="password"
-              onChange={(e) => setSecondCardNum(e.target.value)}
-              onKeyUp={(e) => inputMoveNumber(e)}
-              maxLength="4"
-            />
-            <CardInput
-              type="password"
-              onChange={(e) => setThirdCardNum(e.target.value)}
-              onKeyUp={(e) => inputMoveNumber(e)}
-              maxLength="4"
-            />
-            <CardInput
-              type="password"
-              maxLength="4"
-              onChange={(e) => setFourthCardNum(e.target.value)}
-            />
+          <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: "10px",
+              }}
+            >
+              <input
+                className="reserv"
+                value={bookId}
+                placeholder="예약번호"
+                onChange={(e) => setBookId(e.target.value)}
+              />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: "10px",
+                marginLeft: "8px",
+              }}
+            >
+              <CardInput
+                type="text"
+                placeholder={"신용카드 번호"}
+                value={firstCardNum}
+                onChange={(e) => setFirstCardNum(e.target.value)}
+                onKeyUp={(e) => inputMoveNumber(e)}
+                maxLength="4"
+              />
+              <CardInput
+                type="password"
+                value={secondCardNum}
+                onChange={(e) => setSecondCardNum(e.target.value)}
+                onKeyUp={(e) => inputMoveNumber(e)}
+                maxLength="4"
+              />
+              <CardInput
+                type="password"
+                value={thirdCardNum}
+                onChange={(e) => setThirdCardNum(e.target.value)}
+                onKeyUp={(e) => inputMoveNumber(e)}
+                maxLength="4"
+              />
+              <CardInput
+                type="password"
+                maxLength="4"
+                value={fourthCardNum}
+                onChange={(e) => setFourthCardNum(e.target.value)}
+              />
+            </div>
           </div>
         </div>
         <div>

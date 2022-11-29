@@ -26,7 +26,9 @@ export const reserveRoom = async ({
 
 export const login = async ({ bookId, cardNum }) => {
   const { data } = await api.get(
-    `${process.env.REACT_APP_SERVER_URL}/book/check?bookId=${bookId}&cardNum=${cardNum}`
+    `${
+      process.env.REACT_APP_SERVER_URL
+    }/book/check?bookId=${8}&cardNum=${cardNum}`
   );
   return data;
 };

@@ -7,6 +7,7 @@ import SecondStep from "./pages/reserv/SecondStep";
 import ThirdStep from "./pages/reserv/ThirdStep";
 import LoginPage from "./pages/LoginPage";
 import CheckPage from "./pages/CheckPage";
+import CompletePage from "./pages/CompletePage";
 
 const MainPage = lazy(() => import("./pages/MainPage"));
 
@@ -24,6 +25,7 @@ function App() {
             <Route path="/reserv/3" element={<ThirdStep />} />
             <Route path="/reserv/3" element={<ThirdStep />} />
             <Route path="/check" element={<CheckPage />} />
+            <Route path="/complete" element={<CompletePage />} />
           </Routes>
         </Suspense>
       </BrowserRouter>

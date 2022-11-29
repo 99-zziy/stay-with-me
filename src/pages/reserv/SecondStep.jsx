@@ -16,7 +16,9 @@ const SecondStep = () => {
   const roomName = state.roomName;
   const [bookOption, setBookOption] = useState("");
   const [userName, setUserName] = useState("");
-  const [userPhone, setUserPhone] = useState("");
+  const [userPhone1, setUserPhone1] = useState("");
+  const [userPhone2, setUserPhone2] = useState("");
+  const [userPhone3, setUserPhone3] = useState("");
   const [firstCardNum, setFirstCardNum] = useState("");
   const [secondCardNum, setSecondCardNum] = useState("");
   const [thirdCardNum, setThirdCardNum] = useState("");
@@ -30,6 +32,8 @@ const SecondStep = () => {
       thirdCardNum,
       fourthCardNum,
     ].join("-");
+
+    const userPhone = [userPhone1, userPhone2, userPhone3].join("-");
 
     const data = await reserveRoom({
       bookPrice,
@@ -95,11 +99,23 @@ const SecondStep = () => {
                     }}
                   />
                 </div>
-                <div style={{ display: "flex" }}>
-                  <p>연락처</p>
-                  <BasicInput
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <p style={{ paddingTop: "20px" }}>연락처</p>
+                  <TelInput
                     onChange={(e) => {
-                      setUserPhone(e.target.value);
+                      setUserPhone1(e.target.value);
+                    }}
+                  />
+                  -
+                  <TelInput
+                    onChange={(e) => {
+                      setUserPhone2(e.target.value);
+                    }}
+                  />
+                  -
+                  <TelInput
+                    onChange={(e) => {
+                      setUserPhone3(e.target.value);
                     }}
                   />
                 </div>
@@ -125,26 +141,29 @@ const SecondStep = () => {
                     <option value="현대카드">현대카드</option>
                   </select>
                 </div>
-                <div style={{ display: "flex" }}>
-                  <p>카드 번호</p>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <p style={{ paddingTop: "20px" }}>카드 번호</p>
                   <CardInput
                     type="text"
                     onChange={(e) => setFirstCardNum(e.target.value)}
                     onKeyUp={(e) => inputMoveNumber(e)}
                     maxLength="4"
                   />
+                  -
                   <CardInput
                     type="password"
                     onChange={(e) => setSecondCardNum(e.target.value)}
                     onKeyUp={(e) => inputMoveNumber(e)}
                     maxLength="4"
                   />
+                  -
                   <CardInput
                     type="password"
                     onChange={(e) => setThirdCardNum(e.target.value)}
                     onKeyUp={(e) => inputMoveNumber(e)}
                     maxLength="4"
                   />
+                  -
                   <CardInput
                     type="password"
                     maxLength="4"
@@ -210,9 +229,15 @@ const BasicInput = styled.input`
   height: 30px;
 `;
 
+const TelInput = styled.input`
+  width: 80px;
+  margin: 0px 5px;
+  height: 30px;
+`;
+
 const CardInput = styled.input`
   width: 70px;
-  margin-right: 10px;
+  margin: 0px 5px;
   height: 30px;
 `;
 
