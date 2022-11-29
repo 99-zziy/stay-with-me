@@ -11,9 +11,10 @@ import roomImg3 from "../../assets/room3.jpeg";
 import roomImg4 from "../../assets/room4.jpeg";
 
 const FirstStep = () => {
-  const today = new Date();
-  const tomorrow = new Date(today.setDate(today.getDate() + 1));
-  const [startDate, setStartDate] = useState(new Date());
+  const t = new Date();
+  const today = new Date(t.setDate(t.getDate() + 1));
+  const tomorrow = new Date(t.setDate(t.getDate() + 1));
+  const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(tomorrow);
   const [day, setDay] = useState(1);
   const [count, setCount] = useState(1);

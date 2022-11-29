@@ -17,12 +17,12 @@ const CompletePage = () => {
   return (
     <InputContainer>
       <Circle />
-      <h3>고객님의 예약이 취소되었습니다.</h3>
-      <h6>고객님이 취소하신 내역입니다.</h6>
+      <h3>고객님의 예약이 변경되었습니다.</h3>
+      <h6>고객님이 변경하신 내역입니다.</h6>
       <table border={1}>
         <tr>
           <th>예약번호</th>
-          <td>2018112024</td>
+          <td>{bookId}</td>
         </tr>
         <tr>
           <th>예약자 성함</th>
@@ -46,7 +46,7 @@ const CompletePage = () => {
         </tr>
         <tr>
           <th>객실 타입</th>
-          <td>그랜드 디럭스 더블</td>
+          <td>{roomName}</td>
         </tr>
         <tr>
           <th>이용 요금</th>

@@ -32,7 +32,7 @@ const CheckPage = () => {
   };
 
   const handleEdit = () => {
-    // setOpen(true);
+    navigate("/reserv/1");
   };
 
   const handleCancel = () => {
@@ -114,14 +114,15 @@ const CheckPage = () => {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"정말 예약을 취소하시겠습니까?"}</DialogTitle>
+        <DialogTitle>{"정말 예약을 변경하시겠습니까?"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            예약을 취소하시면 &nbsp;
+            예약을 변경하시면 &nbsp;
             <u>
-              <b>취소 규정</b>
+              <b>변경 규정</b>
             </u>
-            에 따라 {bookPrice * 0.9}원 금액이 환불됩니다. <br />
+            에 따라 360000원 금액이 환불되고, {bookPrice}원이 결제 됩니다.
+            <br />
             이에 동의하십니까?
           </DialogContentText>
         </DialogContent>
